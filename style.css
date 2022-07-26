@@ -1,3 +1,11 @@
+textarea{
+    resize: none;
+}
+h1{
+    font-family: Arial;
+    font-weight: 900;
+    color: white;
+}
 button{
     background-color: transparent;
     background-position: center;
@@ -16,6 +24,7 @@ button{
     top:0;
     left:0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -46,7 +55,6 @@ button{
     overflow-y: auto;
 }
 #inputText{
-    resize: none;
     width: 100%;
     font-size: x-large;
 }
@@ -70,6 +78,21 @@ button{
     display: flex;
     justify-content: center;
 }
+.applyButton{
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    margin: 2.5px;
+    background-image: url("img/icon-apply-100.png");  
+}
+.applyButton:hover{
+    background-image: url("img/icon-apply-fill-100.png.png");
+}
+.updateTextArea{
+    width: 100%;
+    font-size: x-large;
+}
 .mainContent{
     width:100%;
 }
@@ -84,11 +107,10 @@ button{
     border-radius: 5px;
 }
 .listItemText{
-    width: 80%;
+    width: 100%;
     overflow-wrap:break-word;
     margin: 2%;
     font-size: x-large;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .listItemButtonContainer{
     display: flex;

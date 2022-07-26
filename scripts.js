@@ -37,8 +37,10 @@ function inputClick(){
 }
 
 function getInput(){
-    const inputText = document.getElementById("inputText").value;
+    let inputText = document.getElementById("inputText").value;
+    inputText = inputText.trim();
     if(!inputText){
+        clearInput();
         alert("not validated")
         return;
     }
@@ -64,7 +66,7 @@ function makeUpdateContent(button){
     const textArea = document.createElement("textarea");
     textArea.value = toDoList[listItemContainerId];
     textArea.setAttribute("class","updateTextArea");
-    applyButton.appendChild(document.createTextNode("apply"));
+    applyButton.setAttribute("class","applyButton");
     applyButton.setAttribute("onclick","applyClick(this)");
     listItemContainer.innerHTML = "";
     listItemContainer.appendChild(applyButton);
@@ -119,7 +121,6 @@ function addListItem(itemText, itemIndex){
     clearInput();
     saveList(); 
 }
-
 function makeListItem(inputText, itemIndex){
     const itemContainer = makeListItemContainer();
     itemContainer.setAttribute("id",itemIndex);
