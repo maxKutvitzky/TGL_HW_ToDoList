@@ -1,4 +1,5 @@
 let isListItemUpdating = false;
+let isListItemSettings = false;
 var toDoList = getList();
 if(!toDoList){
     toDoList = [];
@@ -9,8 +10,10 @@ else{
 }
 
 function renderToDoList(){
+    isListItemSettings = false;
+    isListItemUpdating = false;
     clearOutput();
-    if(toDoList.length == 0){
+    if(!toDoList.length){
         saveList();
         renderEmptyOutput();
     }else{
@@ -57,20 +60,27 @@ function applyClick(button){
     updatedText = document.getElementsByClassName("updateTextArea")[0].value;
     updateListItem(updatedText,listItemContainerId);
     renderToDoList();
-    isListItemUpdating = false;
+}
+function backClick(button){
+    renderToDoList();
 }
 function makeUpdateContent(button){
     const listItemContainerId = button.parentNode.parentNode.id;
     const listItemContainer = button.parentNode.parentNode;
-    const applyButton = document.createElement("button");
+    const applyButton = makeListItemButton("applyButton","applyClick(this)")
     const textArea = document.createElement("textarea");
     textArea.value = toDoList[listItemContainerId];
     textArea.setAttribute("class","updateTextArea");
-    applyButton.setAttribute("class","applyButton");
-    applyButton.setAttribute("onclick","applyClick(this)");
     listItemContainer.innerHTML = "";
     listItemContainer.appendChild(applyButton);
     listItemContainer.appendChild(textArea);
+}
+function makeSettingsContent(button){
+    const listButtonContainer = button.parentNode;
+    listButtonContainer.innerHTML = "";
+    listButtonContainer.appendChild(makeListItemButton("listItemDeleteButton","deleteClick(this)"));
+    listButtonContainer.appendChild(makeListItemButton("listItemUpdateButton","updateClick(this)"));
+    listButtonContainer.appendChild(makeListItemButton("listItemBackButton","backClick(this)"));
 }
 function updateClick(button){
     if(!isListItemUpdating){
@@ -79,6 +89,15 @@ function updateClick(button){
     }
     else{
         alert("already updating!");
+    }
+}
+function settingsClick(button){
+    if(!isListItemSettings){
+        isListItemSettings = true;
+        makeSettingsContent(button);
+    }
+    else{
+        alert("already settings!");
     }
 }
 function clearInput(){
@@ -124,19 +143,17 @@ function addListItem(itemText, itemIndex){
 function makeListItem(inputText, itemIndex){
     const itemContainer = makeListItemContainer();
     itemContainer.setAttribute("id",itemIndex);
-    const itemTextContainer = makeItemTextContainer(inputText);
+    const itemTextContainer = makeItemTextContainer();
     const itemButtonContainer = makeItemButtonContainer();
+    itemTextContainer.appendChild(makeListItemText(inputText));
+    itemButtonContainer.appendChild(makeListItemButton("listItemSettingsButton", "settingsClick(this)"))
     itemContainer.appendChild(itemButtonContainer);
     itemContainer.appendChild(itemTextContainer);
     return itemContainer;
 }
 function makeItemButtonContainer(){
     const buttonContainer = document.createElement("div");
-    const itemDeleteButton = makeListItemDeleteButton();
-    const itemUpdateButton = makeListItemUpdateButton();
     buttonContainer.setAttribute("class","listItemButtonContainer");
-    buttonContainer.appendChild(itemDeleteButton);
-    buttonContainer.appendChild(itemUpdateButton);
     return buttonContainer;
 }
 
@@ -145,10 +162,9 @@ function makeListItemContainer(){
     listItemContainer.setAttribute("class","listItemContainer");
     return listItemContainer;
 }
-function makeItemTextContainer(text){
+function makeItemTextContainer(){
     const listItemTextContainer = document.createElement("div");
     listItemTextContainer.setAttribute("class","listItemTextContainer");
-    listItemTextContainer.appendChild(makeListItemText(text));
     return listItemTextContainer;
 }
 function makeListItemText(text){
@@ -157,17 +173,11 @@ function makeListItemText(text){
     listItemText.appendChild(document.createTextNode(text));
     return listItemText;
 }
-function makeListItemDeleteButton(){
-    const listItemDeleteButton = document.createElement("button");
-    listItemDeleteButton.setAttribute("class","listItemDeleteButton");
-    listItemDeleteButton.setAttribute("onclick","deleteClick(this)")
-    return listItemDeleteButton;
-}
-function makeListItemUpdateButton(){
-    const listItemUpdateButton = document.createElement("button");
-    listItemUpdateButton.setAttribute("class","listItemUpdateButton");
-    listItemUpdateButton.setAttribute("onclick","updateClick(this)")
-    return listItemUpdateButton;
+function makeListItemButton(className, actionName){
+    const listItemButton = document.createElement("button");
+    listItemButton.setAttribute("class", className);
+    listItemButton.setAttribute("onclick", actionName)
+    return listItemButton;
 }
 function renderEmptyOutput(){
     const emptyItemContainer = document.createElement("div");
