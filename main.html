@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <title>Simple ToDo list</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div id="backgroundContainer">
+        <div id="headerContainer">
+            <h1>ToDo List</h1>
+        </div>
+        <div id="mainContainer">
+            <div class="mainContent" id="inputContainer">
+                <textarea class="inputContent" id="inputText"></textarea>
+                <div id="inputContentButtonContainer">
+                    <button class="inputContent" onclick="inputClick()" id="inputButton"></button>
+                </div>
+            </div>
+            <div class="mainContent" id="listSwitchContainer">
+                <button class="switchButton" id="inProgressButton" onclick="switchInProgressButtonClick()">ToDo</button>
+                <button class="switchButton" id="doneButton" onclick="switchDoneButtonClick()">Done</button>
+            </div>
+            <div class="mainContent" id="listContainer"></div>
+        </div>
+    </div>
+</body>
+

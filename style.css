@@ -1,0 +1,187 @@
+textarea{
+    resize: none;
+}
+h1{
+    font-family: Arial;
+    font-weight: 900;
+    color: white;
+}
+button{
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0;
+    cursor: pointer;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10%;
+    margin: 2.5px;
+    background-image: url("img/icon-error-100.png");
+}
+#backgroundContainer{
+    background-color: rgb(136, 136, 206);
+    height: 100%;
+    width: 100%;
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#mainContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px; 
+    height:80%; 
+    width:60%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 10px;
+}
+
+#inputContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 10%;
+    margin-bottom: 5px;
+}
+#listContainer{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+#inputText{
+    width: 100%;
+    font-size: x-large;
+}
+#emptyListItem{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#inputButton{
+    width: 100%;
+    height: auto;
+    background-image: url("img/icon-add-96.png");
+}
+#inputButton:hover{
+    background-image: url("img/icon-add-fill-96.png");
+}
+#inputContentButtonContainer{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+}
+.switchButton{
+    background-color: white;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid black;
+    width: 80px;
+    height: 50px;
+    border-radius: 0;
+    margin: 2.5px;
+    background-image: none;
+}
+.applyButton{
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    margin: 2.5px;
+    background-image: url("img/icon-apply-100.png");  
+}
+.applyButton:hover{
+    background-image: url("img/icon-apply-fill-100.png.png");
+}
+.updateTextArea{
+    width: 100%;
+    font-size: x-large;
+}
+.mainContent{
+    width:100%;
+}
+.inputContent{
+    margin: 5px;
+}
+.listItemContainer{
+    background-color: rgb(136, 136, 206);
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    border-radius: 5px;
+}
+.listItemText{
+    width: 100%;
+    overflow-wrap:break-word;
+    margin: 2%;
+    font-size: x-large;
+}
+.listItemButtonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 5px;
+    width: 20%;
+    height: 100%;
+}
+.listItemTextContainer{
+    width: 80%;
+}
+.listItemDeleteButton{
+    background-image: url("img/icon-delete-96.png");
+}
+.listItemUpdateButton{
+    background-image: url("img/icon-edit-100.png");  
+}
+.listItemSettingsButton{
+    background-image: url("img/icon-settings-100.png");
+}
+.listItemBackButton{
+    background-image: url("img/icon-back-100.png");
+}
+.listItemDoneButton{
+    background-image: url("img/icon-done-100.png");
+}
+.listItemDoneButton:hover{
+    background-image: url("img/icon-done-fill-100.png");
+}
+.listItemBackButton:hover{
+    background-image: url("img/icon-back-fill-100.png");
+}
+.listItemSettingsButton:hover{
+    background-image: url("img/icon-settings-fill-100.png");
+}
+.listItemUpdateButton:hover{
+    background-image: url("img/icon-edit-fill-100.png");
+}
+.listItemDeleteButton:hover{
+    background-image: url("img/icon-delete-fill-96.png");
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
