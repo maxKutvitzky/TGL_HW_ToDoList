@@ -1,32 +1,81 @@
+const listNames ={
+    toDo:"toDoList",
+    Done:"doneList"
+}
+var currentList = listNames.toDo;
 let isListItemUpdating = false;
 let isListItemSettings = false;
-var toDoList = getList();
-if(!toDoList){
-    toDoList = [];
-    renderEmptyOutput();
-}
-else{
-    renderToDoList();
-}
+toDoList = getList(listNames.toDo);
+doneList = getList(listNames.Done);
+toDoListInit();
 
+function toDoListInit(){
+    if(!toDoList){
+        renderEmptyOutput(listNames.toDo);
+    }
+    else{
+        renderToDoList();
+    }
+}
+function renderDoneList(){
+    changeSwitchButtonsStyle();
+    clearOutput();
+    if(!doneList.length){
+        saveList(listNames.Done, doneList);
+        renderEmptyOutput("Done");
+    }else{
+        for(var i=0; i<doneList.length;i++){
+            addListItem(doneList[i],i,listNames.Done);
+        }
+    }
+}
 function renderToDoList(){
+    changeSwitchButtonsStyle();
     isListItemSettings = false;
     isListItemUpdating = false;
     clearOutput();
     if(!toDoList.length){
-        saveList();
-        renderEmptyOutput();
+        saveList(listNames.toDo, toDoList);
+        renderEmptyOutput("ToDo");
     }else{
         for(var i=0; i<toDoList.length;i++){
-            addListItem(toDoList[i],i);
+            addListItem(toDoList[i],i,listNames.toDo);
         }
     }
-    
 }
-function renderEmptyOutput(){
+function changeSwitchButtonsStyle(){
+    const doneButton = document.getElementById("doneButton");
+    const toDoButton = document.getElementById("inProgressButton");
+    switch (currentList){
+        case listNames.toDo:
+            toDoButton.style.backgroundColor = "black";
+            toDoButton.style.color = "white";
+            doneButton.style.backgroundColor = "white";
+            doneButton.style.color = "black";
+            break;
+        case listNames.Done:
+            toDoButton.style.backgroundColor = "white";
+            toDoButton.style.color = "black";
+            doneButton.style.backgroundColor = "black";
+            doneButton.style.color = "white";
+            break;
+
+    }
+}
+function switchInProgressButtonClick(){
+    currentList = listNames.toDo;
+    renderToDoList();
+    changeSwitchButtonsStyle();
+}
+function switchDoneButtonClick(){
+    currentList = listNames.Done;
+    renderDoneList();
+    changeSwitchButtonsStyle();
+}
+function renderEmptyOutput(listName){
     const emptyItemContainer = document.createElement("div");
     const emptyItemText = document.createElement("h3")
-    emptyItemText.appendChild(document.createTextNode("Your ToDo list is empty :)"));
+    emptyItemText.appendChild(document.createTextNode("Your "+listName+" list is empty :)"));
     emptyItemContainer.setAttribute("id","emptyListItem");
     emptyItemContainer.appendChild(emptyItemText);
     document.getElementById("listContainer").appendChild(emptyItemContainer);
@@ -36,15 +85,21 @@ function inputClick(){
     if(!inputText){
         return;
     }
+    currentList = listNames.toDo;
     renderToDoList();
 }
-
+function validateText(text){
+    text = text.trim();
+    if(!text){
+        alert("not validated")
+        return false;
+    }
+    return true;
+}
 function getInput(){
     let inputText = document.getElementById("inputText").value;
-    inputText = inputText.trim();
-    if(!inputText){
+    if(!validateText(inputText)){
         clearInput();
-        alert("not validated")
         return;
     }
     addTextToList(inputText);
@@ -52,12 +107,24 @@ function getInput(){
 }
 function deleteClick(button){
     const listItemContainerId = button.parentNode.parentNode.id;
-    removeFromList(listItemContainerId);
-    renderToDoList();
+    switch (currentList){
+        case listNames.toDo:
+            removeFromList(listItemContainerId, currentList);
+            renderToDoList();
+            break;
+        case listNames.Done:
+            removeFromList(listItemContainerId, currentList);
+            renderDoneList();
+            break;
+    }
 }
 function applyClick(button){
     const listItemContainerId = button.parentNode.id;
     updatedText = document.getElementsByClassName("updateTextArea")[0].value;
+    if(!validateText(updatedText)){
+        renderToDoList();
+        return;
+    }
     updateListItem(updatedText,listItemContainerId);
     renderToDoList();
 }
@@ -100,26 +167,38 @@ function settingsClick(button){
         alert("already settings!");
     }
 }
+function doneClick(button){
+    const listItemContainerId = button.parentNode.parentNode.id;
+    doneList.push(removeFromList(listItemContainerId, listNames.toDo));
+    saveList(listNames.Done,doneList);
+    renderToDoList();
+}
 function clearInput(){
     document.getElementById("inputText").value = "";
 }
 function clearOutput(){
     document.getElementById("listContainer").innerHTML="";
 }
-function saveList(){
-    localStorage.setItem("toDoList", JSON.stringify(toDoList))
+function saveList(listName, list){
+    localStorage.setItem(listName, JSON.stringify(list))
 }
-function getList(){
-    let storedList = JSON.parse(localStorage.getItem("toDoList"));
+function getList(listName){
+    let storedList = JSON.parse(localStorage.getItem(listName));
+    if(!storedList){
+        return [];
+    }
     return storedList;
 }
-
 function updateListItem(text, elementIndex){
     toDoList[elementIndex] = text;
 }
 
-function removeFromList(index){
-    toDoList.splice(index,1);
+function removeFromList(index, listName){
+    if(listName === listNames.toDo){
+        return toDoList.splice(index,1);
+    }else{
+        doneList.splice(index,1);
+    } 
 }
 
 function addTextToList(item){
@@ -131,22 +210,32 @@ function addTextToList(item){
     }
 }
 
-function addListItem(itemText, itemIndex){
-    const listItem = makeListItem(itemText, itemIndex);
+function addListItem(itemText, itemIndex, listName){
+    const listItem = makeListItem(itemText, itemIndex, listName);
     if(!listItem){
         return;
     }
     document.getElementById("listContainer").appendChild(listItem);
     clearInput();
-    saveList(); 
+    if(currentList === listNames.toDo){
+        saveList(listNames.toDo ,toDoList); 
+    }else{
+        saveList(listNames.Done ,doneList);
+    }
+    
 }
-function makeListItem(inputText, itemIndex){
+function makeListItem(inputText, itemIndex, listName){
     const itemContainer = makeListItemContainer();
     itemContainer.setAttribute("id",itemIndex);
     const itemTextContainer = makeItemTextContainer();
     const itemButtonContainer = makeItemButtonContainer();
     itemTextContainer.appendChild(makeListItemText(inputText));
-    itemButtonContainer.appendChild(makeListItemButton("listItemSettingsButton", "settingsClick(this)"))
+    if(listName === listNames.toDo){
+        itemButtonContainer.appendChild(makeListItemButton("listItemDoneButton", "doneClick(this)"))
+        itemButtonContainer.appendChild(makeListItemButton("listItemSettingsButton", "settingsClick(this)"))
+    }else{
+        itemButtonContainer.appendChild(makeListItemButton("listItemDeleteButton","deleteClick(this)"));
+    }
     itemContainer.appendChild(itemButtonContainer);
     itemContainer.appendChild(itemTextContainer);
     return itemContainer;
@@ -179,11 +268,4 @@ function makeListItemButton(className, actionName){
     listItemButton.setAttribute("onclick", actionName)
     return listItemButton;
 }
-function renderEmptyOutput(){
-    const emptyItemContainer = document.createElement("div");
-    const emptyItemText = document.createElement("h3")
-    emptyItemText.appendChild(document.createTextNode("Your ToDo list is empty :)"));
-    emptyItemContainer.setAttribute("id","emptyListItem");
-    emptyItemContainer.appendChild(emptyItemText);
-    document.getElementById("listContainer").appendChild(emptyItemContainer);
-}
+

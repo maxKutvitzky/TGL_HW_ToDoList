@@ -13,6 +13,12 @@ button{
     background-size: contain;
     margin: 0;
     cursor: pointer;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10%;
+    margin: 2.5px;
+    background-image: url("img/icon-error-100.png");
 }
 #backgroundContainer{
     background-color: rgb(136, 136, 206);
@@ -65,9 +71,8 @@ button{
     justify-content: center;
 }
 #inputButton{
-    border: none;
     width: 100%;
-    border-radius: 10%;
+    height: auto;
     background-image: url("img/icon-add-96.png");
 }
 #inputButton:hover{
@@ -77,6 +82,17 @@ button{
     width: 10%;
     display: flex;
     justify-content: center;
+}
+.switchButton{
+    background-color: white;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid black;
+    width: 80px;
+    height: 50px;
+    border-radius: 0;
+    margin: 2.5px;
+    background-image: none;
 }
 .applyButton{
     border: none;
@@ -125,36 +141,22 @@ button{
     width: 80%;
 }
 .listItemDeleteButton{
-    border: none;
-    width: 40px;
-    height: 40px;
-    margin: 2.5px;
-    border-radius: 10%;
     background-image: url("img/icon-delete-96.png");
 }
 .listItemUpdateButton{
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 10%;
-    margin: 2.5px;
     background-image: url("img/icon-edit-100.png");  
 }
 .listItemSettingsButton{
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 10%;
-    margin: 2.5px;
     background-image: url("img/icon-settings-100.png");
 }
 .listItemBackButton{
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 10%;
-    margin: 2.5px;
     background-image: url("img/icon-back-100.png");
+}
+.listItemDoneButton{
+    background-image: url("img/icon-done-100.png");
+}
+.listItemDoneButton:hover{
+    background-image: url("img/icon-done-fill-100.png");
 }
 .listItemBackButton:hover{
     background-image: url("img/icon-back-fill-100.png");
@@ -168,22 +170,18 @@ button{
 .listItemDeleteButton:hover{
     background-image: url("img/icon-delete-fill-96.png");
 }
-/* width */
 ::-webkit-scrollbar {
     width: 10px;
 }
   
-  /* Track */
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
   }
   
-  /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #888;
   }
   
-  /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
